@@ -1,14 +1,16 @@
 version: 0.0
 os: linux
 
-resources:
-  - name: MyNodeApp
-    type: AWS::EC2::Instance
-    properties:
-      key: my-key-pair
-      instanceId: i-0123456789abcdef0
+files:
+  - source: /
+    destination: /var/www/html
 
-hooks:
+permissions:
+  - object: /var/www/html
+    owner: ubuntu
+    group: ubuntu
+    mode: 755
+
   BeforeInstall:
     - location: scripts/install_dependencies.sh
       timeout: 300
