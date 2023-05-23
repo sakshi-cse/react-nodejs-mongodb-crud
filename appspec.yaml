@@ -1,0 +1,25 @@
+version: 0.0
+os: linux
+
+resources:
+  - name: MyNodeApp
+    type: AWS::EC2::Instance
+    properties:
+      key: my-key-pair
+      instanceId: i-0123456789abcdef0
+
+hooks:
+  BeforeInstall:
+    - location: scripts/install_dependencies.sh
+      timeout: 300
+      runas: root
+
+  AfterInstall:
+    - location: scripts/configure_mongodb.sh
+      timeout: 300
+      runas: root
+
+  ApplicationStart:
+    - location: scripts/start_node_app.sh
+      timeout: 300
+      runas: root
